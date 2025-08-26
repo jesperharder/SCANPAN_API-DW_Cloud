@@ -1,0 +1,37 @@
+{
+  "id": "dedf60de-0668-4fe6-9fba-0c4739112860",
+  "name": "SCANPAN Data Warehouse API",
+  "brief": "Exposes Business Central data to a data warehouse via pages and queries.",
+  "description": "This extension enables seamless data extraction from Business Central by exposing tables through pages and queries. Designed for integration with a data warehouse, it supports reporting, analytics, and business intelligence processes by making operational data easily accessible through API endpoints.",
+  "publisher": "SCANPAN",
+  "privacyStatement": "https://www.scanpan.dk",
+  "help": "https://www.scanpan.dk/",
+  "contextSensitiveHelpUrl": "https://www.scanpan.dk/",
+  "version": "1.0.0.5",
+  "dependencies": [
+    {
+      "id": "3c107f88-c5c8-4ec0-b40f-c321a596c29c",
+      "name": "Master Data Management System",
+      "version": "5.9.0.1",
+      "publisher": "IT.integro sp. z o.o."
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "25.0.0.0",
+  "idRanges": [
+    {
+      "from": 50090,
+      "to": 50200
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "13.1",
+  "features": [
+    "NoImplicitWith"
+  ]
+}

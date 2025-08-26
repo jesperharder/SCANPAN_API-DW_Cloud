@@ -1,0 +1,41 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [ 
+        {
+            "name": "ASIA Cloud",
+            "request": "launch",
+            "type": "al",
+            "server": "https://businesscentral.dynamics.com",
+            "environmentType": "Production",
+            "environmentName": "ASIA",
+            "tenant": "1be741e0-cf98-48ac-baf3-1564da36860e",
+
+            //"startupObjectId": 22,
+            //"startupObjectType": "Page",
+
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true
+        },
+        {
+            "name": "TestHK SandboxDK",
+            "request": "launch",
+            "type": "al",
+            "server": "http://businesscentral.dynamics.com",
+            "environmentType": "Sandbox",
+            "environmentName": "SandboxDK",
+            "tenant": "1be741e0-cf98-48ac-baf3-1564da36860e",
+
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+            
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true
+        }
+    ]
+}
+  
