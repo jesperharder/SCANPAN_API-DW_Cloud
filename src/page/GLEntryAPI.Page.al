@@ -29,6 +29,12 @@ page 50100 GLEntryAPI
             repeater(Group)
             {
                 Caption = 'Group';
+                // I layout/repeater:
+                field("timestamp"; TimestampHex)
+                {
+                    Caption = 'timestamp';
+                }
+
                 field(entryNo; Rec."Entry No.")
                 {
                     Caption = 'Entry No.';
@@ -197,8 +203,7 @@ page 50100 GLEntryAPI
                 {
                     Caption = 'IC Partner Code';
                 }
-                // not existing in Cloud Asia
-                field(reversed; false)
+                field(reversed; Rec.Reversed)
                 {
                     Caption = 'Reversed';
                 }
@@ -261,4 +266,14 @@ page 50100 GLEntryAPI
             }
         }
     }
+    // Variabler + helpers nederst i objektet:
+    var
+        TsMgt: Codeunit "DW Timestamp Mgt.";
+        TimestampHex: Text[18];
+
+    trigger OnAfterGetRecord()
+    begin
+      TimestampHex := TsMgt.Make8(Rec.SystemModifiedAt, Rec."Entry No.");
+    end;
+
 }
