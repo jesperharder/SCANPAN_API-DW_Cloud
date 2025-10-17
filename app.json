@@ -7,7 +7,7 @@
   "privacyStatement": "https://www.scanpan.dk",
   "help": "https://www.scanpan.dk/",
   "contextSensitiveHelpUrl": "https://www.scanpan.dk/",
-  "version": "1.0.0.5",
+  "version": "1.0.0.7",
   "dependencies": [
     {
       "id": "3c107f88-c5c8-4ec0-b40f-c321a596c29c",
