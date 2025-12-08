@@ -1,5 +1,5 @@
-page 50098 GlAccountAPI
-{
+page 50209 GlAccountAPI
+{ 
     /// <summary>
     /// Date        Name                Version.SubVersion      Description
     /// 2025.08.20  Jesper Harder       001.4                   API page for G/L Accounts (INT enums + DW timestamp)
@@ -67,7 +67,7 @@ page 50098 GlAccountAPI
     trigger OnAfterGetRecord()
     begin
         // Enum/option -> integer spejlfelter
-        AccountTypeInt := Rec."Account Type".AsInteger();
+        AccountTypeInt := Rec."Account Type";
         IncomeBalanceInt := Rec."Income/Balance";
         AccountCategoryInt := Rec."Account Category".AsInteger();
     end;

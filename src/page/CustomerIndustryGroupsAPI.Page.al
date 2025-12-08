@@ -1,4 +1,4 @@
-page 50096 "CustomerIndustryGroupsAPI"
+page 50206 "CustomerIndustryGroupsAPI"
 {
     // API Page: CustomerIndustryGroups
     /// <summary>

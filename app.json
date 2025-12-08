@@ -7,30 +7,27 @@
   "privacyStatement": "https://www.scanpan.dk",
   "help": "https://www.scanpan.dk/",
   "contextSensitiveHelpUrl": "https://www.scanpan.dk/",
-  "version": "1.0.0.7",
+  "version": "1.0.0.10",
+
   "dependencies": [
-    {
-      "id": "3c107f88-c5c8-4ec0-b40f-c321a596c29c",
-      "name": "Master Data Management System",
-      "version": "5.9.0.1",
-      "publisher": "IT.integro sp. z o.o."
-    }
+  {
+  "id": "6109cdb7-e1d4-47bf-b20c-c06faf83ccd1",
+  "name": "SCANPAN ASIA",
+  "publisher": "SCANPAN A/S",
+  "version": "1.0.25.0"
+  }
   ],
+
   "screenshots": [],
-  "platform": "1.0.0.0",
-  "application": "25.0.0.0",
+  "platform": "27.0.0.0",
+  "application": "27.0.0.0",
   "idRanges": [
     {
-      "from": 50090,
-      "to": 50200
+      "from": 50200,
+      "to": 50399
     }
   ],
-  "resourceExposurePolicy": {
-    "allowDebugging": true,
-    "allowDownloadingSource": true,
-    "includeSourceInSymbolFile": true
-  },
-  "runtime": "13.1",
+  "runtime": "14.1",
   "features": [
     "NoImplicitWith"
   ]
