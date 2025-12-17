@@ -7,9 +7,23 @@
   "privacyStatement": "https://www.scanpan.dk",
   "help": "https://www.scanpan.dk/",
   "contextSensitiveHelpUrl": "https://www.scanpan.dk/",
-  "version": "1.0.0.10",
+  "version": "1.0.0.16",
 
   "dependencies": [
+    
+  {
+  "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
+  "name": "Base Application",
+  "publisher": "Microsoft",
+  "version": "27.1.41698.43234"
+  },
+  {
+  "id": "b3780cd9-f8f8-4a83-a4d5-0c2ad87b28af",
+  "name": "Sustainability",
+  "publisher": "Microsoft",
+  "version": "27.1.41698.41831"
+  },
+
   {
   "id": "6109cdb7-e1d4-47bf-b20c-c06faf83ccd1",
   "name": "SCANPAN ASIA",
@@ -27,7 +41,7 @@
       "to": 50399
     }
   ],
-  "runtime": "14.1",
+  "runtime": "16.0",
   "features": [
     "NoImplicitWith"
   ]
