@@ -73,7 +73,7 @@ codeunit 50200 "DW WS Registrar"
         AddApiPage(50239, 'MachineCenterAPI');
         AddApiPage(50282, 'WorkCenterAPI');
 
-        AddApiPage(50244, 'ProductionBOMHeaderAPI');
+        AddApiPage(50290, 'ProductionBOMHeaderAPI');
         AddApiPage(50245, 'ProductionBOMLineAPI');
         AddApiPage(50264, 'ProdBOMLineScrapAPI');
 
