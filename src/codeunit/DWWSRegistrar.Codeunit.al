@@ -127,6 +127,17 @@ codeunit 50200 "DW WS Registrar"
         // Calendar / scheduling / time
         // ---------------------------------------------------------------------
         AddApiPage(50200, 'CalendarEntryAPI');
+
+
+        // ---------------------------------------------------------------------
+        // Perfion API
+        /// 2026.01.05  Jesper Harder       002.1                   API page for Perfion
+        // ---------------------------------------------------------------------
+        RemovePublishedPage(50211);
+        AddPublishedPage(50226, 'PerfionItemsDW');
+        RemovePublishedPage(50225);
+        AddPublishedPage(50228, 'PerfionPricesDW');
+
     end;
 
     /// <summary>
@@ -136,12 +147,23 @@ codeunit 50200 "DW WS Registrar"
     /// </summary>
     local procedure AddApiPage(PageId: Integer; PageName: Text[250])
     var
-        WS: Record "Tenant Web Service";
         ServiceName: Text[250];
     begin
         ServiceName := GetDwServiceName(PageName); // camelCase + 'DW'
+        RemovePublishedPage(PageId);
+        InsertDesiredRow(PageId, ServiceName);
+    end;
 
-        // 1) Remove ALL existing rows for this PageId (any casing / names)
+    local procedure AddPublishedPage(PageId: Integer; ServiceName: Text[250])
+    begin
+        RemovePublishedPage(PageId);
+        InsertDesiredRow(PageId, ServiceName);
+    end;
+
+    local procedure RemovePublishedPage(PageId: Integer)
+    var
+        WS: Record "Tenant Web Service";
+    begin
         WS.Reset();
         WS.SetRange("Object Type", WS."Object Type"::Page);
         WS.SetRange("Object ID", PageId);
@@ -149,9 +171,6 @@ codeunit 50200 "DW WS Registrar"
             repeat
                 WS.Delete(true);
             until WS.Next() = 0;
-
-        // 2) Insert the single canonical row with exact casing
-        InsertDesiredRow(PageId, ServiceName);
     end;
 
     /// <summary>
