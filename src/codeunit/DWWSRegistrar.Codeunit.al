@@ -58,6 +58,7 @@ codeunit 50200 "DW WS Registrar"
         AddApiPage(50224, 'ItemAPI');
         AddApiPage(50227, 'ItemBudgetEntryAPI'); // planning/budget but item-centric in DW
         AddApiPage(50229, 'ItemCategoryAPI');
+        AddPublishedPage(50233, 'AuningStockDW');
         AddApiPage(50234, 'ItemLedgerEntryAPI');
         AddApiPage(50235, 'ItemUnitofMeasureAPI');
         AddApiPage(50236, 'ItemReferenceAPI');
