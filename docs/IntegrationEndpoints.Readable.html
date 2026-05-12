@@ -97,7 +97,7 @@
       </div>
       <div class="card">
         <h3>Status</h3>
-        <p>Tilpasset cloud-repoets aktuelle kode og publiceringslogik pr. 2026-04-16.</p>
+        <p>Tilpasset cloud-repoets aktuelle kode og publiceringslogik pr. 2026-05-01.</p>
       </div>
     </div>
 
@@ -134,7 +134,7 @@
     </table>
 
     <div class="note">
-      Perfion custom API-siderne findes stadig i appen, men OData-siderne er de operative publiceringer i denne løsning.
+      Perfion-integrationerne eksponeres kun gennem OData-siderne i denne løsning.
     </div>
 
     <h2>1. AUNING Stock</h2>
@@ -188,17 +188,19 @@ GenProdPostingGroupFilter=INTERN|EKSTERN|BRUND;AvailableReductionPct=10</pre>
 
     <h2>3. Perfion Prices</h2>
     <p>
-      <code>PerfionPricesDW</code> bygger et midlertidigt prisdatasæt og vælger én foretrukken række pr. logisk kombination.
+      <code>PerfionPricesDW</code> bygger et midlertidigt prisdatasæt med én række pr. vare og faste pivoterede prisfelter pr. prislistekombination.
     </p>
     <ol>
-      <li>Kun aktive prislinjer gyldige i dag</li>
-      <li>Seneste <code>Starting Date</code> vinder</li>
-      <li>Laveste pris vinder ved samme startdato</li>
+      <li>Kun aktive prislinjer gyldige i dag og de konfigurerede debitorgruppe/valuta/UoM-kombinationer tages med</li>
+      <li>Endpointet eksponerer aktuelt 19 faste kombinationer</li>
+      <li>Laveste <code>Minimum Quantity</code> vinder</li>
+      <li>Seneste <code>Starting Date</code> vinder ved samme minimumantal</li>
+      <li>Laveste nonzero <code>Unit Price</code> vinder ved samme minimumantal og startdato</li>
     </ol>
 
     <div class="note">
-      Cloud-repoet har i øjeblikket kampagnematch slået ud i koden. Derfor returnerer
-      <code>campaignPrice = 0</code> og tomt <code>campaignId</code>, selv om felterne findes i output.
+      Hver kombination eksponerer <code>price*</code>, <code>recommendedPrice*</code> og <code>campaignPrice*</code>.
+      Recommended price læses fra NOTO/KOLLAB felt 51003 på <code>Price List Line</code>, og campaign matching bruger felt 51001 på <code>Campaign</code>.
     </div>
 
     <h2>Publicering og rettigheder</h2>

@@ -25,12 +25,7 @@ The current OData endpoints are:
 2. `page 50226 "PerfionItemsOData"` published as `PerfionItemsDW`
 3. `page 50228 "PerfionPricesOData"` published as `PerfionPricesDW`
 
-The repo also retains two custom API pages:
-
-- `page 50211 "PerfionItemsAPI"`
-- `page 50225 "PerfionPricesAPI"`
-
-These custom API pages still exist in the extension, while the operational publication for the DW-facing service layer is handled through the OData pages.
+Perfion integrations are exposed only through the OData pages.
 
 ## Architecture Summary
 
@@ -177,10 +172,6 @@ Published as:
 
 - `PerfionItemsDW`
 
-### Retained custom API page
-
-- [PerfionItemsAPI.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionItemsAPI.Page.al:1)
-
 ### Base filter
 
 - `Gen. Prod. Posting Group = INTERN|EKSTERN|BRUND`
@@ -219,34 +210,30 @@ Published as:
 
 - `PerfionPricesDW`
 
-### Retained custom API page
-
-- [PerfionPricesAPI.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionPricesAPI.Page.al:1)
-
 ### Dataset construction
 
-The page uses a temporary `Price List Line` dataset.
+The page uses a temporary `Price List Line` dataset and exposes one row per item.
 
 Flow:
 
 1. clear temporary rows
-2. load active rows valid for today
-3. apply incoming OData filters where relevant
-4. keep one preferred row per combination of:
-   `Asset No. + Source No. + Currency Code + Unit of Measure Code`
-5. prefer latest `Starting Date`
-6. if dates are equal, prefer lowest `Unit Price`
+2. load active customer price group rows valid for today
+3. restrict rows to the exposed source/currency/UoM price combinations
+4. apply incoming item filter where relevant
+5. keep one item row where the source price line has the lowest `Minimum Quantity`
+6. populate fixed pivot fields for each of the 20 configured source/currency/UoM combinations
 
-### Important cloud-specific note
+`WEB_NO` is read from company `SCANPAN Norge`. The other price combinations are read from the current company.
 
-The campaign matching code is currently disabled in this repo.
+For each combination the page exposes:
 
-In practice this means:
+- `price*`
+- `recommendedPrice*`
+- `campaignPrice*`
 
-- `campaignPrice` remains `0`
-- `campaignId` remains blank
+Recommended price is read from NOTO/KOLLAB `Price List Line` field 51003 through `RecordRef`.
 
-The page structure still contains the fields and helper methods, but the matching block against `Campaign."Customer Price Group NOTO"` is commented out.
+Campaign price matching reads NOTO/KOLLAB `Campaign` field 51001 through `RecordRef` and compares it to the customer price group.
 
 ### Source tables
 
@@ -255,9 +242,7 @@ The page structure still contains the fields and helper methods, but the matchin
 
 ### Design note
 
-The current deduplication key does not include `Minimum Quantity`.
-
-That means the endpoint returns one preferred row per item/sales code/currency/UoM combination, not a full tier-price breakdown.
+The endpoint deliberately does not expose tier-price rows. It returns the active line with the lowest `Minimum Quantity` for each item and pivoted price combination.
 
 ## Publication Model
 
@@ -311,24 +296,25 @@ This means:
 Price selection:
 
 ```al
-if SP."Starting Date" > Existing."Starting Date" then
-    ReplaceExisting := true
-else
-    if SP."Starting Date" = Existing."Starting Date" then begin
-        if (SP."Unit Price" <> 0) and (Existing."Unit Price" <> 0) then begin
-            if SP."Unit Price" < Existing."Unit Price" then
-                ReplaceExisting := true;
-        end else
-            if (Existing."Unit Price" = 0) and (SP."Unit Price" <> 0) then
-                ReplaceExisting := true;
-    end;
+if Candidate."Minimum Quantity" <> Existing."Minimum Quantity" then
+    exit(Candidate."Minimum Quantity" < Existing."Minimum Quantity");
+
+if Candidate."Starting Date" <> Existing."Starting Date" then
+    exit(Candidate."Starting Date" > Existing."Starting Date");
+
+if Existing."Unit Price" = 0 then
+    exit(Candidate."Unit Price" <> 0);
+if Candidate."Unit Price" = 0 then
+    exit(false);
+
+exit(Candidate."Unit Price" < Existing."Unit Price");
 ```
 
 This means:
 
-- later valid start date wins
-- lower price wins on identical start date
-- only one preferred line is kept per logical combination
+- lowest minimum quantity wins
+- later valid start date wins when minimum quantity is identical
+- lower nonzero price wins on identical minimum quantity and start date
 
 ## Files
 
@@ -341,6 +327,5 @@ Main implementation files:
 - [DWItemCardAuningStock.PageExt.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan (7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/DWItemCardAuningStock.PageExt.al:1)
 - [PerfionItemsOData.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionItemsOData.Page.al:1)
 - [PerfionPricesOData.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionPricesOData.Page.al:1)
-- [PerfionItemsAPI.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionItemsAPI.Page.al:1)
-- [PerfionPricesAPI.Page.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/page/PerfionPricesAPI.Page.al:1)
+- [PerfionPriceFields.md](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/docs/PerfionPriceFields.md:1)
 - [DWWSRegistrar.Codeunit.al](/c:/Users/jespe/OneDrive%20-%20Scanpan/Scanpan%20(7.1.2015)/Development/SCANPAN%20API-DW%20Cloud/src/codeunit/DWWSRegistrar.Codeunit.al:1)

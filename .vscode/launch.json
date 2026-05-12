@@ -23,12 +23,29 @@
       "numberOfSqlStatements": 10
     },
         {
-            "name": "ASIA Cloud",
+            "name": "SCANPAN Cloud",
             "request": "launch",
             "type": "al",
             "server": "https://businesscentral.dynamics.com",
             "environmentType": "Production",
-            "environmentName": "ASIA",
+            "environmentName": "SCANPAN",
+            "tenant": "1be741e0-cf98-48ac-baf3-1564da36860e",
+
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true
+        },
+        {
+            "name": "Asia Cloud",
+            "request": "launch",
+            "type": "al",
+            "server": "https://businesscentral.dynamics.com",
+            "environmentType": "Production",
+            "environmentName": "Asia",
             "tenant": "1be741e0-cf98-48ac-baf3-1564da36860e",
 
             "startupObjectId": 22,

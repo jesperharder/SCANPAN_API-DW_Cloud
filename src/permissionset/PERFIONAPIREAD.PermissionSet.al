@@ -4,9 +4,7 @@ permissionset 50230 "PERFION API READ"
     Assignable = true;
 
     Permissions =
-        page "PerfionItemsAPI" = X,
         page "PerfionItemsOData" = X,
-        page "PerfionPricesAPI" = X,
         page "PerfionPricesOData" = X,
         tabledata Item = R,
         tabledata "Item Reference" = R,

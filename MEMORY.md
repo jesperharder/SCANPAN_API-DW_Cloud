@@ -1,48 +1,42 @@
 # Workspace Memory
 
-## Purpose
-- Keep the current-state notes for `SCANPAN API-DW Cloud`.
-- Capture project-specific integration and object-governance decisions.
-
-## Integration Endpoints
-- Operational OData endpoints in this repo currently include:
-  - `AuningStockDW`
-  - `PerfionItemsDW`
-  - `PerfionPricesDW`
-- Perfion custom API pages are retained alongside the OData pages:
-  - `PerfionItemsAPI`
-  - `PerfionPricesAPI`
-- Publication is handled through `src\codeunit\DWWSRegistrar.Codeunit.al`.
-
-## AUNING Stock
-- AUNING stock snapshot is implemented in this repo with:
-  - `tableextension 50231 "DW Item Auning Stock"`
-  - `codeunit 50293 "Auning Stock Update"`
-  - `page 50233 "AuningStockOData"`
-  - `page 50237 "AuningStockFactBox"`
-  - `pageextension 50232 "DW Item Card Auning Stock"`
-  - `permissionset 50231 "AUNING STOCK READ"`
-- Stock snapshot is scoped to:
-  - location `AUNING`
-  - inventory items
-  - `Gen. Prod. Posting Group = INTERN|EKSTERN|BRUND`
-- Job Queue parameters:
-  - `GenProdPostingGroupFilter=INTERN|EKSTERN|BRUND`
-  - `AvailableReductionPct=<decimal>`
-- Quantities are rounded down to whole numbers and clamped to `0`.
-
-## Perfion
-- `PerfionItemsDW` is a direct OData export over `Item` with enrichment from:
-  - `Item Reference`
-  - `Item Translation`
-  - `Item Unit of Measure`
-- `PerfionPricesDW` builds a temporary curated dataset from `Price List Line`.
-- In this cloud repo, the campaign matching code in `PerfionPricesOData` is currently commented out.
-  - Result: `campaignPrice` stays `0`
-  - Result: `campaignId` stays blank
-
-## Documentation
-- System and operational documentation for the three OData endpoints lives in:
+## Current State
+- `SCANPAN API-DW Cloud` is the ASIA Business Central AL extension exposing data warehouse OData exports.
+- `SCANPAN API-DW OnPrem` is the Denmark API-DW project for current on-prem and future cloud use.
+- `SCANPAN ASIA` is ASIA-specific and does not use KOLLAB/Notora dependencies.
+- `SCANPAN Internal CodeBase - BC25` and `SCANPAN Internal CodeBase - BC25 Test` are Denmark/on-prem projects moving toward cloud and may reference Notora/KOLLAB apps.
+- Permanent project responsibility and action mapping is documented in `docs\ProjectResponsibilities.md`.
+- `.vscode\launch.json` contains a `SCANPAN Cloud` launch profile for the Business Central SaaS production environment `SCANPAN`.
+- The project currently targets Business Central 28.0 with AL runtime 17.0.
+- Workspace AL symbol downloads are isolated to `.alpackages-bc28` through `.vscode\settings.json`.
+- Active operational OData endpoints are `AuningStockDW`, `PerfionItemsDW`, and `PerfionPricesDW`.
+- Publication is centralized in `src\codeunit\DWWSRegistrar.Codeunit.al`.
+- Endpoint system and operational documentation is maintained in:
   - `docs\IntegrationEndpoints.md`
   - `docs\IntegrationEndpoints.Readable.html`
   - `docs\IntegrationEndpoints.pdf`
+- Perfion price-field contract is maintained in `docs\PerfionPriceFields.md`.
+
+## Verified Contracts
+- `AuningStockDW` is a stored item stock snapshot for location `AUNING`, inventory items, and `Gen. Prod. Posting Group = INTERN|EKSTERN|BRUND`.
+- AUNING stock Job Queue parameters are `GenProdPostingGroupFilter` and `AvailableReductionPct`.
+- AUNING stock quantities are rounded down to whole numbers and clamped to `0`.
+- `PerfionItemsDW` is a direct OData export over `Item` enriched from item references, translations, and units of measure.
+- `PerfionPricesDW` returns one temporary row per item with fixed pivot fields for 20 configured source/currency/UoM combinations.
+- `WEB_NO` Perfion prices are read from company `SCANPAN Norge`; other Perfion price combinations are read from the current company.
+- Perfion normal and campaign price selection uses lowest `Minimum Quantity`, then latest `Starting Date`, then lowest nonzero `Unit Price`.
+- Perfion recommended price reads NOTO/KOLLAB `Price List Line` field `51003` through `RecordRef`.
+- Perfion campaign matching reads NOTO/KOLLAB `Campaign` field `51001` through `RecordRef`.
+
+## Blockers And Risks
+- BC28 symbols download successfully from `SandboxDK` and from AL global NuGet sources into `.alpackages-bc28`.
+- BC28 cloud symbol download currently fails server-side for Microsoft `System` and `Application` 28.0.0.0 from the `SCANPAN` and `Asia` production environments, even after successful tenant authentication.
+- Current ASIA BC28 build fails after symbol download because `app.json` has `dependencies: []` while the source still references non-base ASIA symbols and `Sustainability Setup`.
+- The working tree currently contains pre-existing uncommitted changes; inspect status before further edits.
+
+## Next Checks
+- Restore required ASIA BC28 dependencies for non-base symbols before treating remaining build diagnostics as code issues.
+- If production symbol download still fails after dependency cleanup, use the captured request IDs for a Microsoft support case.
+- Before endpoint changes, compare implementation, `DWWSRegistrar`, permissionsets, and `docs`.
+- Before Perfion price changes, compare `src\page\PerfionPricesOData.Page.al` with `docs\PerfionPriceFields.md`.
+- After AL object changes, refresh the central BC object inventory when practical.
