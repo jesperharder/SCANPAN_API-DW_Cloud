@@ -72,6 +72,23 @@
             "launchBrowser": true,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true
+        },
+        {
+            "name": "TestDK SB_Conversion_20260512",
+            "request": "launch",
+            "type": "al",
+            "server": "https://businesscentral.dynamics.com",
+            "environmentType": "Sandbox",
+            "environmentName": "SB_Conversion_20260512",
+            "tenant": "1be741e0-cf98-48ac-baf3-1564da36860e",
+
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+            
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true
         }
     ]
 }
