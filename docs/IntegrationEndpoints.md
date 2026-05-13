@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document describes the current integration design for the three operational OData export endpoints in `SCANPAN API-DW Cloud`:
+This document describes the current integration design for the three operational OData export endpoints in `SCANPAN API-DW Cloud International`:
 
 - `AuningStockDW`
 - `PerfionItemsDW`

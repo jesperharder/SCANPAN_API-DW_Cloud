@@ -1,7 +1,8 @@
 # Project AGENTS.md
 
 ## Scope
-- These rules apply to the full `SCANPAN API-DW Cloud` repository.
+- These rules apply to the full `SCANPAN API-DW Cloud International` repository.
+- This project is the BC Cloud API-DW project for the international companies: USA, Singapore, China, and Japan.
 - Read `MEMORY.md` before project work and update it only when current project state changes.
 - Keep stable project rules in this file. Move repeated Memory rules here when they become permanent.
 

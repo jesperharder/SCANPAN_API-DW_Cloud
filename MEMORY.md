@@ -1,8 +1,9 @@
 # Workspace Memory
 
 ## Current State
-- `SCANPAN API-DW Cloud` is the ASIA Business Central AL extension exposing data warehouse OData exports.
-- `SCANPAN API-DW OnPrem` is the Denmark API-DW project for current on-prem and future cloud use.
+- `SCANPAN API-DW Cloud International` is the Business Central Cloud AL extension exposing data warehouse OData exports for USA, Singapore, China, and Japan.
+- `SCANPAN API-DW Cloud` is the Denmark/Norway BC Cloud API-DW project created from the OnPrem baseline.
+- `SCANPAN API-DW OnPrem` remains the on-prem API-DW project.
 - `SCANPAN ASIA` is ASIA-specific and does not use KOLLAB/Notora dependencies.
 - `SCANPAN Internal CodeBase - BC25` and `SCANPAN Internal CodeBase - BC25 Test` are Denmark/on-prem projects moving toward cloud and may reference Notora/KOLLAB apps.
 - Permanent project responsibility and action mapping is documented in `docs\ProjectResponsibilities.md`.
